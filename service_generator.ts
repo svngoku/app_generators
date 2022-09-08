@@ -63,7 +63,7 @@ const go_server_generator = (schema: Schema, { scope}): Config => {
         	"fmt"
         	"html/template"
         	"log"
-        	"net/http"
+        	"net/http" 
         )
 
         func ${model}(w http.ResponseWriter, r *http.Request) {
@@ -74,12 +74,9 @@ const go_server_generator = (schema: Schema, { scope}): Config => {
             //
         }
 
-        //PageVariables are variables sent to the html template
        
 
-        var todos []Todo
-
-        func getTodos(w http.ResponseWriter, r *http.Request) {
+        func get${model}(w http.ResponseWriter, r *http.Request) {
         	pageVariables := PageVariables{
         		PageTitle: "Get Todos",
         		PageTodos: todos,
@@ -100,7 +97,7 @@ const go_server_generator = (schema: Schema, { scope}): Config => {
         		http.Error(w, err.Error(), http.StatusBadRequest)
         		log.Print("Request parsing error: ", err)
         	}
-
+            // Add class parameters
         	todo := Todo{
         		Title:   r.FormValue("title"),
         		Content: r.FormValue("content"),
@@ -112,11 +109,12 @@ const go_server_generator = (schema: Schema, { scope}): Config => {
         }
 
         func main() {
-        	http.HandleFunc("/", home)
-        	http.HandleFunc("/todos/", getTodos)
-        	http.HandleFunc("/add-todo/", addTodo)
-        	fmt.Println("Server is running on port :8080")
-        	log.Fatal(http.ListenAndServe(":8080", nil))
+        	// http.HandleFunc("/", home)
+        	// http.HandleFunc("/todos/", getTodos)
+        	// http.HandleFunc("/add-todo/", addTodo)
+        	// fmt.Println("Server is running on port :8080")
+        	
+            log.Fatal(http.ListenAndServe(":8080", nil))
 
         }
     `;
@@ -127,6 +125,13 @@ const go_server_generator = (schema: Schema, { scope}): Config => {
         fileName: `${refs}/${refs}.server.go`,
       };
 };
+
+const notebook_generator = (schema: Schema, { scope }: Config) => {
+    const { ref, refs, model, models, singleParam } = buildNameVariations(schema);
+    const notebook_template = `
+    `;
+
+}
 
 export const ServiceGenerator: Generator = {
   generate
